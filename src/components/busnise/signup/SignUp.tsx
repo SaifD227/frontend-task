@@ -19,6 +19,7 @@ import { Icons } from "@/components/icons";
 import { BASE_URL } from "@/const/baseUrl";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -115,9 +116,9 @@ export default function SignUp() {
               <div className="text-center mt-4">
                 <p className="text-sm text-gray-500">
                   Already have an account?{" "}
-                  <a href="/" className="text-blue-600 hover:underline">
+                  <Link href="/" className="text-blue-600 hover:underline">
                     Login
-                  </a>
+                  </Link>
                 </p>
               </div>
             </form>
