@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { BASE_URL } from '../../../const/baseUrl'; // Assuming the BASE_URL is defined in a separate file
+import { BASE_URL } from '../../../const/baseUrl'; 
+import { Button } from '@/components/ui/button';
 
 const Dashboard: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -96,27 +97,27 @@ const Dashboard: React.FC = () => {
             />
           </div>
           <div className="flex gap-2 mt-8">
-            <button
+            <Button
               type="button"
               onClick={() => handleEdit(formData.id)}
               className="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
             >
               Edit
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={() => handleDelete(formData.id)}
               className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
             >
               Delete
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={handleAdd}
               className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               Add
-            </button>
+            </Button>
           </div>
         </div>
       </form>
@@ -130,18 +131,18 @@ const Dashboard: React.FC = () => {
               <p><strong>ID:</strong> {user.id}</p>
               <p><strong>Email:</strong> {user.email}</p>
               <div className="flex gap-2">
-                <button
+                <Button
                   onClick={() => handleEdit(user.id)}
                   className="bg-yellow-500 text-white py-1 px-2 rounded-lg"
                 >
                   Edit
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => handleDelete(user.id)}
                   className="bg-red-500 text-white py-1 px-2 rounded-lg"
                 >
                   Delete
-                </button>
+                </Button>
               </div>
             </li>
           ))}
