@@ -25,6 +25,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Icons } from "@/components/icons";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { BASE_URL } from "@/const/baseUrl";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -37,6 +40,7 @@ const formSchema = z.object({
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,10 +53,28 @@ export default function Login() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      // Add your login logic here
-      console.log(values);
+      const response = await fetch(`${BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+
+      // Store the token in localStorage
+      localStorage.setItem("token", data.token);
+      
+      toast.success("Login successful!");
+      router.push("/dashboard"); // Redirect to dashboard after successful login
     } catch (error) {
       console.error(error);
+      toast.error(error instanceof Error ? error.message : "Something went wrong");
     } finally {
       setIsLoading(false);
     }

@@ -16,6 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icons } from "@/components/icons";
+import { BASE_URL } from "@/const/baseUrl";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -28,6 +31,7 @@ const formSchema = z.object({
 
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,10 +44,25 @@ export default function SignUp() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      // Add your sign-up logic here
-      console.log(values);
+      const response = await fetch(`${BASE_URL}/auth/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Signup failed");
+      }
+
+      toast.success("Account created successfully!");
+      router.push("/");
     } catch (error) {
       console.error(error);
+      toast.error(error instanceof Error ? error.message : "Something went wrong");
     } finally {
       setIsLoading(false);
     }
@@ -93,6 +112,14 @@ export default function SignUp() {
                 )}
                 Sign Up
               </Button>
+              <div className="text-center mt-4">
+                <p className="text-sm text-gray-500">
+                  Already have an account?{" "}
+                  <a href="/login" className="text-blue-600 hover:underline">
+                    Login
+                  </a>
+                </p>
+              </div>
             </form>
           </Form>
         </CardContent>
