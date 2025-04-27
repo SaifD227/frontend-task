@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
+import logo from "../../../../public/assets/google.png"
 import {
   Form,
   FormControl,
@@ -110,6 +112,9 @@ export default function Login() {
                 )}
                 Login
               </Button>
+              <button className="w-full flex items-center justify-center gap-2">
+                <Image src={logo} alt="logo" width={100} height={20} />
+              </button>
               <p className="text-sm text-gray-600 text-right">
                 Already have an account?
                 <Link
